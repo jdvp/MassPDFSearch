@@ -30,8 +30,16 @@ public interface IV2MAdapter {
      */
     public void loadFiles(File file);
 
+    /**
+     * Calls on the model to search for a specified input query
+     *
+     * @param query The query that we are searching for
+     */
     public void searchFor(String query);
 
+    /**
+     * Calls on the model to clear its memory of any loaded documents
+     */
     public void clear();
 
 }

@@ -5,14 +5,31 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
- * Created by JD on 1/26/2015.
+ * The system representation of a PDF document.
+ *
+ * @author JD Porterfield
  */
 public class PDF {
 
+    /**
+     * The actual file object that this PDF represents
+     */
     File myFile;
+    /**
+     * The text stored in the PDF
+     */
     String myText;
+    /**
+     * The text stored in the PDF broken down into its constituent sentences
+     */
     ArrayList<String> sentences = new ArrayList<String>();
 
+    /**
+     * Creates a PDF object and splits the text into sentences.
+     *
+     * @param file The PDF document's file
+     * @param text The txt of the PDF
+     */
     public PDF(File file, String text){
         myFile = file;
         myText = text;
@@ -21,20 +38,31 @@ public class PDF {
             sentences.add(tk.nextToken());
     }
 
+    /**
+     * Searches the PDF's sentences for any matches to the input query
+     *
+     * @param query The phrase to search for within the sentences
+     * @return A list of sentences from this PDF that matches the query
+     */
     public ArrayList<String> search(String query){
-        if(!myText.contains(query))
+        if(!myText.toLowerCase().contains(query.toLowerCase()))
             return null;
         else {
             ArrayList<String> res = new ArrayList<String>();
             for(String s: sentences)
             {
-                if(s.contains(query))
+                if(s.toLowerCase().contains(query.toLowerCase()))
                     res.add(s);
             }
             return res;
         }
     }
 
+    /**
+     * Returns the file associated with this PDF
+     *
+     * @return The file associated with this PDF
+     */
     public File getFile(){
         return myFile;
     }

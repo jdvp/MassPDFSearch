@@ -12,6 +12,8 @@ import java.util.ArrayList;
 /**
  * This is the model of the MassPDFSearch System.
  * It is responsible for parsing the data from all of the PDF documents in order to make the document searchable.
+ *
+ * @author JD Porterfield
  */
 public class Model {
 
@@ -20,17 +22,32 @@ public class Model {
      */
     IM2VAdapter view;
 
+    /**
+     * The list of PDF documents loaded into the system
+     */
     ArrayList<PDF> pdfs = new ArrayList<PDF>();
 
+    /**
+     * The Constructor for the Model object.
+     * Sets the adapter to the view
+     *
+     * @param adapter The adapter used to communicate with the view
+     */
     public Model(IM2VAdapter adapter)
     {
         view = adapter;
     }
 
+    /**
+     * A no-op for this model
+     */
     public void start(){
 
     }
 
+    /**
+     * Clears all of the stored PDFs from the model
+     */
     public void clear(){
         pdfs = new ArrayList<PDF>();
     }
@@ -84,6 +101,13 @@ public class Model {
         }
     }
 
+    /**
+     * Searches all of the PDF documents for sentences relevant to the input query.
+     * If there are results, a link to the document and all of the sentences that contain the query are displayed
+     * by making a call to the view.
+     *
+     * @param query The phrase to search for
+     */
     public void search(String query){
         view.clearDisplay();
         view.displayText("Results for search \'"+query+"\'");
@@ -92,7 +116,9 @@ public class Model {
                 ArrayList<String> results = pdf.search(query);
                 if(results != null){
                     view.displayText("\n");
-                    view.displayPDFButton(pdf.getFile());
+                    File file = pdf.getFile();
+                    //File searchFile = new File(file.getPath()+"#search=\""+query+"\"");
+                    view.displayPDFButton(file);
                     for(String s: results)
                         view.displayText("\n\t" + s);
                 }

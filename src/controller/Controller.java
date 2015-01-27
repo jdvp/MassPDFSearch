@@ -47,15 +47,9 @@ public class Controller {
         });
 
         view = new View(new IV2MAdapter() {
-            /**
-             * Loads the PDF files from the specified directory into the model
-             *
-             * @param file The directory to search for PDFs
-             */
-            @Override
-            public void loadFiles(File file) {
-                model.loadFiles(file);
 
+             public void loadFiles(File file) {
+                model.loadFiles(file);
             }
 
             public void searchFor(String query){

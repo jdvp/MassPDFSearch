@@ -14,6 +14,8 @@ import java.io.IOException;
  * This is the View of the MassPDFSearch system.
  * It is responsible for getting input from the user as to which PDFs to search and what phrase to query exactly.
  * It is also responsible for displaying the results to the user.
+ *
+ * @author JD Porterfield
  */
 public class View extends JFrame {
 
@@ -22,17 +24,33 @@ public class View extends JFrame {
      */
     private IV2MAdapter model;
 
+    /**
+     * This is the area that will be used to display text.
+     * This includes 'hyperlinks' to the specific PDFs.
+     */
     private JTextPane textArea;
 
+    /**
+     * The Constructor for this view object.
+     * This sets the adapter and makes sure that the GUI is initialized.
+     *
+     * @param adapter The adapter used to communicate with the model
+     */
     public View(IV2MAdapter adapter) {
         model = adapter;
         initGUI();
     }
 
+    /**
+     * Makes the GUI visible so that the user can interact with the system
+     */
     public void start(){
         setVisible(true);
     }
 
+    /**
+     * Initializes the GUI components of the View.
+     */
     public void initGUI(){
         setSize(1000,750);
         setTitle("Mass PDF Search");
@@ -71,16 +89,23 @@ public class View extends JFrame {
         controlPanel.add(search);
         add(controlPanel, BorderLayout.NORTH);
 
+        //set search as the default button
+        getRootPane().setDefaultButton(search);
+
+        //Create the area used to display search results and pdf links
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         textArea = new JTextPane();
         textArea.setEditable(false);
-//        textArea.setLineWrap(true);
-//        textArea.setWrapStyleWord(true);
         scrollPane.setViewportView(textArea);
         add(scrollPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Displays text on the result area
+     *
+     * @param text The text to display
+     */
     public void displayText(String text){
         try{
             Document doc = textArea.getDocument();
@@ -91,6 +116,11 @@ public class View extends JFrame {
         }
     }
 
+    /**
+     * Displays a hyperlink to the given file on the result area
+     *
+     * @param file The file for which a 'hyperlink' is displayed
+     */
     public void displayPDFButton(final File file){
         JButton jumpToFile = new JButton(file.getName());
         jumpToFile.addActionListener(new ActionListener() {
@@ -112,5 +142,8 @@ public class View extends JFrame {
         textArea.insertComponent(jumpToFile);
     }
 
+    /**
+     * Clears the result area of text and hyperlinks
+     */
     public void clearDisplay(){textArea.setText("");}
 }
