@@ -1,6 +1,8 @@
 package model;
 
 
+import java.io.File;
+
 /**
  * This is the adapter that the model uses to interact with the view
  *
@@ -13,9 +15,17 @@ public interface IM2VAdapter {
      */
     IM2VAdapter NULL_ADAPTER = new IM2VAdapter(){
 
-        public void displayResults(String text){}
+        public void displayText(String text){}
+
+        public void clearDisplay(){}
+
+        public void displayPDFButton(File file){}
     };
 
-    public void displayResults(String text);
+    public void displayText(String text);
+
+    public void clearDisplay();
+
+    public void displayPDFButton(File file);
 
 }

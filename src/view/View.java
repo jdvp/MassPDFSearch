@@ -1,10 +1,14 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * This is the View of the MassPDFSearch system.
@@ -18,7 +22,7 @@ public class View extends JFrame {
      */
     private IV2MAdapter model;
 
-    private JTextArea textArea;
+    private JTextPane textArea;
 
     public View(IV2MAdapter adapter) {
         model = adapter;
@@ -50,6 +54,7 @@ public class View extends JFrame {
                     model.clear();
                     model.loadFiles(retFile);
                 }
+                textArea.setText("PDFs loaded successfully");
             }
         });
         final JTextField query = new JTextField(30);
@@ -68,14 +73,44 @@ public class View extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        textArea = new JTextArea();
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
+        textArea = new JTextPane();
+        textArea.setEditable(false);
+//        textArea.setLineWrap(true);
+//        textArea.setWrapStyleWord(true);
         scrollPane.setViewportView(textArea);
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void displayResults(String text){
-        textArea.setText(text);
+    public void displayText(String text){
+        try{
+            Document doc = textArea.getDocument();
+            doc.insertString(doc.getLength(), text, null);
+        }
+        catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
+
+    public void displayPDFButton(final File file){
+        JButton jumpToFile = new JButton(file.getName());
+        jumpToFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                        Desktop.getDesktop().open(file);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        jumpToFile.setBackground(Color.WHITE);
+        jumpToFile.setBorder(new EmptyBorder(5,5,5,5));
+        jumpToFile.setForeground(Color.BLUE);
+
+        textArea.insertComponent(jumpToFile);
+    }
+
+    public void clearDisplay(){textArea.setText("");}
 }

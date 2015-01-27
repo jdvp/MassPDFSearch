@@ -33,8 +33,16 @@ public class Controller {
     public Controller(){
         model = new Model(new IM2VAdapter() {
 
-            public void displayResults(String text){
-                view.displayResults(text);
+            public void displayText(String text){
+                view.displayText(text);
+            }
+
+            public void clearDisplay(){
+                view.clearDisplay();
+            }
+
+            public void displayPDFButton(File file){
+                view.displayPDFButton(file);
             }
         });
 

@@ -85,18 +85,18 @@ public class Model {
     }
 
     public void search(String query){
-
-        String resultText ="Resutls for search \'"+query+"\'";
+        view.clearDisplay();
+        view.displayText("Results for search \'"+query+"\'");
         if(pdfs.size() > 0){
             for(PDF pdf : pdfs){
                 ArrayList<String> results = pdf.search(query);
                 if(results != null){
-                    resultText += "\n" + pdf.getFile().getName();
+                    view.displayText("\n");
+                    view.displayPDFButton(pdf.getFile());
                     for(String s: results)
-                        resultText += "\n\t" + s;
+                        view.displayText("\n\t" + s);
                 }
             }
         }
-        view.displayResults(resultText);
     }
 }
