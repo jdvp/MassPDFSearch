@@ -17,6 +17,10 @@ public interface IV2MAdapter {
     IV2MAdapter NULL_ADAPTER = new IV2MAdapter() {
 
         public void loadFiles(File file) {}
+
+        public void searchFor(String query){}
+
+        public void clear(){}
     };
 
     /**
@@ -25,5 +29,9 @@ public interface IV2MAdapter {
      * @param file The directory to search for PDFs
      */
     public void loadFiles(File file);
+
+    public void searchFor(String query);
+
+    public void clear();
 
 }

@@ -32,6 +32,10 @@ public class Controller {
      */
     public Controller(){
         model = new Model(new IM2VAdapter() {
+
+            public void displayResults(String text){
+                view.displayResults(text);
+            }
         });
 
         view = new View(new IV2MAdapter() {
@@ -43,6 +47,15 @@ public class Controller {
             @Override
             public void loadFiles(File file) {
                 model.loadFiles(file);
+
+            }
+
+            public void searchFor(String query){
+                model.search(query);
+            }
+
+            public void clear(){
+                model.clear();
             }
         });
     }

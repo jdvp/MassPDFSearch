@@ -16,7 +16,9 @@ public class View extends JFrame {
     /**
      * The adapter used to communicate with the model
      */
-    IV2MAdapter model;
+    private IV2MAdapter model;
+
+    private JTextArea textArea;
 
     public View(IV2MAdapter adapter) {
         model = adapter;
@@ -28,7 +30,7 @@ public class View extends JFrame {
     }
 
     public void initGUI(){
-        setSize(600,500);
+        setSize(1000,750);
         setTitle("Mass PDF Search");
         setLayout(new BorderLayout());
         setResizable(false);
@@ -44,16 +46,36 @@ public class View extends JFrame {
                 int returnVal = fc.showOpenDialog(controlPanel);
                 File retFile = fc.getSelectedFile();
                 System.out.println("selected file "+ retFile.toString());
-                if (returnVal == JFileChooser.APPROVE_OPTION)
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    model.clear();
                     model.loadFiles(retFile);
-
+                }
             }
         });
-        JTextField query = new JTextField(30);
+        final JTextField query = new JTextField(30);
         JButton search = new JButton("Search");
+        search.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                if(query.getText() != "")
+                    model.searchFor(query.getText());
+                query.setText("");
+            }
+        });
         controlPanel.add(chooseDirectory);
         controlPanel.add(query);
         controlPanel.add(search);
         add(controlPanel, BorderLayout.NORTH);
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        textArea = new JTextArea();
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        scrollPane.setViewportView(textArea);
+        add(scrollPane, BorderLayout.CENTER);
+    }
+
+    public void displayResults(String text){
+        textArea.setText(text);
     }
 }
